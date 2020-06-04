@@ -4,10 +4,8 @@ authors = ["Igor Kroener <igor.kroener@awi.de>"]
 version = "0.1.0"
 
 [deps]
-Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
 GeoStats = "dcc97b0b-8ce5-5539-9008-bb190f959ef6"
 GeoStatsBase = "323cb8eb-fbf6-51c0-afd0-f8fba70507b2"
-NetCDF = "30363a11-5582-574a-97bb-aa9a979735b9"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
