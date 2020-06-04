@@ -1,39 +1,24 @@
 using Test, GeoStats, FluxConservative
 
-## TEST Definitions....
-##
+## TESTING IS QUIT UNSTRUCTURED AND BRUTAL....
 
-dat=randn(96,48)
-dat=ones(96,48)
-a,b=size(dat)
-lon=(-180+360/a/2:360/a:180-360/a/2)
-lat=(-90+180/b/2:180/b:90-180/b/2)
-lon_src=reshape(repeat(lon,inner=b),a,b)
-lat_src=reshape(repeat(lat,outer=a),a,b)
+target=:tas
+dims=(36,18)
+spacing=(360/dims[1],180/dims[2])
+onset=(-180,-90).+spacing./2
+data1=rand(dims[1],dims[2])
+SG=RegularGrid(dims,onset,spacing)
 
-lon_dst=zeros(1,1)
-lat_dst=zeros(1,1)
+dims=(36,18)
+spacing=(360/dims[1],180/dims[2])
+onset=(-180,-90).+spacing./2
+data1=rand(dims[1],dims[2])
+SD = RegularGridData(OrderedDict(target => data1),onset,spacing)
 
-target = :tas
-
-SG=GeoStats.StructuredGrid(lon_dst,lat_dst)
-solver = FluxConservWeights()
-SD = StructuredGridData(Dict(target => dat), lon_src, lat_src)
 problem = EstimationProblem(SD, SG, target)
+
+solver = FluxConservWeights(target => ())
 solution = solve(problem, solver)
-out=solution.mean[target]
-@test out[1] ≈ mean(dat)[1]
+out=solution[target]
 
-# RANDOM DATA, BUT WITH CONSTANT WEIGHTING....
-dat=randn(96,48)
-lat=repeat([0.],b)
-lat_src=reshape(repeat(lat,outer=a),a,b)
-
-SG=GeoStats.StructuredGrid(lon_dst,lat_dst)
-solver = FluxConservWeights()
-SD = StructuredGridData(Dict(target => dat), lon_src, lat_src)
-problem = EstimationProblem(SD, SG, target)
-solution = solve(problem, solver)
-out=solution.mean[target]
-
-@test out[1] ≈ mean(dat)[1]
+@test data1 ≈ out.mean
