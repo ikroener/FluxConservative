@@ -1,6 +1,6 @@
 # FluxConservative
 
-This package aims provide a flux conservative estimation scheme to contribute to the GeoStats.jl framework. For the very first moment it only allows to remap a regular, gaussian field to a (latitudinal weighted) global mean. 
+This package aims provide a flux conservative estimation scheme to contribute to the GeoStats.jl framework. For the very first moment it only allows to remap regular, rectangular field to a regular, rectangular field. 
 
 ## Installation 
 
