@@ -1,17 +1,21 @@
 module FluxConservative
 
 using GeoStats
+using Distances
 
 import GeoStatsBase: solve
 
 include("helper.jl")
+include("areas/euclidean.jl")
+include("areas/haversine.jl")
 
 export FluxConservWeights
-
+export AreaEuclidean
+export AreaHaversine
 
 @estimsolver FluxConservWeights begin
         @param order = 1
-#        @param distance = Distances.Haversine(6731.)
+        @param area = AreaHaversine()
 end
 
 function GeoStatsBase.solve(problem::EstimationProblem, solver::FluxConservWeights)
@@ -21,7 +25,7 @@ function GeoStatsBase.solve(problem::EstimationProblem, solver::FluxConservWeigh
         dst_bounds=getCorners(problem.sdomain)
         src_bounds=getCorners(problem.sdata.domain)
 
-        areacella=EstCellAreas(dst_bounds,src_bounds)
+        areacella=EstCellAreas(dst_bounds,src_bounds,solver.vparams[solver.varnames[1]].area)
 
         out=[]
         for (var, V) in variables(problem)
