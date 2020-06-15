@@ -5,8 +5,8 @@ end
 AreaEuclidean() = AreaEuclidean(0.)
 
 function (area::AreaEuclidean)(X::PointSet,Y::PointSet)
-    x=coordinates(X)
-    y=coordinates(Y)
+    x=GeoStats.coordinates(X)
+    y=GeoStats.coordinates(Y)
 
     #bottom_left
     x1=max(x[1,1],y[1,1])

@@ -5,7 +5,7 @@
 
 """
 function getCorners(X::RegularGrid)
-    cds=coordinates(X)
+    cds=GeoStats.coordinates(X)
     spacing=X.spacing./2
     corners=[]
 
@@ -15,7 +15,11 @@ function getCorners(X::RegularGrid)
     sides=collect(spacing) .* idx
 
     corners=map(x -> PointSet(x.+ sides),eachcol(cds))
-    (coords=coordinates(X)',bounds=corners)
+    (coords=GeoStats.coordinates(X)',bounds=corners)
+end
+
+function getCorners(X::StructuredGrid)
+
 end
 
 
@@ -25,8 +29,8 @@ end
 check if rectangles overlap....
 """
 function doOverlap(X::PointSet,Y::PointSet)
-        x=coordinates(X)
-        y=coordinates(Y)
+        x=GeoStats.coordinates(X)
+        y=GeoStats.coordinates(Y)
         # is one rectangle on left of the other ?
         a=x[1,4] >= y[1,2] || y[1,4] >= x[1,2]
         # is one rectangle on top of the other ?
@@ -54,4 +58,17 @@ function EstCellAreas(X,Y,area)
                 push!(areacella,(xnum,srcidx,cellarea))
         end
         return areacella
+end
+
+"""
+    Conv2SetPoint(X::PointSet)
+
+convert a PointSet type to a set of Points in Array{Array{Point}} format for polygon triangulation
+"""
+function Conv2SetPoint(X::PointSet)
+        x=GeoStats.coordinates(X)
+        T=typeof(x[1,1])
+        out=Array{Point2{T}}(undef,0)
+        [push!(out,Point2(xcol[1],xcol[2])) for xcol in eachcol(x)]
+        return out
 end

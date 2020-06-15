@@ -5,10 +5,12 @@ end
 AreaHaversine() = AreaHaversine(6731.)
 
 function (area::AreaHaversine)(X::PointSet,Y::PointSet)
-    ## To estimate a spherical quadrilateral we can split it into two spherical triangles....
-    ## but first we have to get the 4 coordinates of the overlap
-    x=coordinates(X)
-    y=coordinates(Y)
+    ## To estimate a spherical quadrilateral we can split it into spherical triangles....
+    ## And use spherical geometry to estimate the area
+    ## but first we have to get the 4 coordinates of the overlap polygon
+
+    x=GeoStats.coordinates(X)
+    y=GeoStats.coordinates(Y)
 
     #bottom_left
     x1=max(x[1,1],y[1,1])
@@ -27,10 +29,12 @@ function (area::AreaHaversine)(X::PointSet,Y::PointSet)
     y4=y3
 
     Z=PointSet([x1 x2 x3 x4;y1 y2 y3 y4])
-    z=coordinates(Z)
+    z=GeoStats.coordinates(Z)
+    Zpoints=Conv2SetPoint(Z)
+    triangles=EarCut.triangulate([Zpoints])
     A = 0.
 
-    for sel in ([1,2,3],[1,3,4])
+    for sel in triangles
 
         a=haversine(z[:,sel[1]],z[:,sel[2]],1)
         b=haversine(z[:,sel[2]],z[:,sel[3]],1)
