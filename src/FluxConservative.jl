@@ -2,6 +2,8 @@ module FluxConservative
 
 using GeoStats
 using Distances
+using GeometryBasics
+using EarCut
 
 import GeoStatsBase: solve
 
@@ -19,6 +21,9 @@ export AreaHaversine
 end
 
 function GeoStatsBase.solve(problem::EstimationProblem, solver::FluxConservWeights)
+        @assert isa(problem.sdomain,RegularGrid) "For the moment only RegularGrids are supported \n Please check your input"
+        @assert isa(problem.sdata.domain,RegularGrid) "For the moment only RegularGrids are supported \n Please check your input"
+
         pdata=data(problem)
 
         ### Estimate grid corners....
