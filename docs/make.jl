@@ -30,7 +30,7 @@ makedocs(sitename="FluxConservative",
         "Home" => "index.md",
         "Manual" => Any[
 #            "Guide" => "man/guide.md",
-            "man/examples.md",
+            "man/examples.md"
 #            "man/syntax.md",
 #            "man/doctests.md",
 #            "man/latex.md",
@@ -46,7 +46,7 @@ makedocs(sitename="FluxConservative",
             #"Internals" => map(
             #    s -> "lib/internals/$(s)",
             #    sort(readdir(joinpath(@__DIR__, "src/lib/internals")))
-            ),
+            #),
         ],
 #        "contributing.md",
     ],
