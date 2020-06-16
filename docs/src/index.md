@@ -1,11 +1,20 @@
 # FluxConservative.jl Documentation
 
-## internal helper functions
+A package providing a flux conservative estimation scheme to contribute to the GeoStats.jl framework. 
 
-```@meta
-CurrentModule = FluxConservative
-```
+## Features
 
-```@docs
-Conv2SetPoint
-```
+## Manuals
+
+```@contents
+Pages = [
+     "man/examples.md"
+]
+
+## Library
+
+```@contents
+Pages = [
+     "lib/internals.md",
+     "lib/public.md"
+]
