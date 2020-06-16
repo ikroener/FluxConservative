@@ -19,4 +19,4 @@ Feel free to contribute and raise questions by opening an issue.
 
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: https://github.com/ikroener/FluxConservative/docs/src/index.md
+[docs-dev-url]: https://ikroener.github.io/ikroener/FluxConservative/dev/
