@@ -10,6 +10,7 @@ A package providing a flux conservative estimation scheme to contribute to the G
 Pages = [
      "man/examples.md"
 ]
+```
 
 ## Library
 
@@ -18,3 +19,4 @@ Pages = [
      "lib/internals.md",
      "lib/public.md"
 ]
+```

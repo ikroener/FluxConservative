@@ -39,6 +39,22 @@ function doOverlap(X::PointSet,Y::PointSet)
         !any([a,b])
 end
 
+"""
+    estOverlap
+
+estimates the overlapping Polygon of two PointSets `X` and `Y`
+
+### Return
+returns an Object suitable for polygon triangulation by EarCut
+type is Array{Array{Point2,2}}
+"""
+function estOverlap(X::PointSet,Y::PointSet)
+        vp1=VPolygon(GeoStats.coordinates(X))
+        vp2=VPolygon(GeoStats.coordinates(Y))
+
+        Zpoints=intersection(vp1,vp2)
+        return Zpoints.vertices
+end
 
 function EstCellAreas(X,Y,area)
         # X is getCorners object of target grid
@@ -58,17 +74,4 @@ function EstCellAreas(X,Y,area)
                 push!(areacella,(xnum,srcidx,cellarea))
         end
         return areacella
-end
-
-"""
-    Conv2SetPoint(X::PointSet)
-
-convert a PointSet type to a set of Points in Array{Array{Point}} format for polygon triangulation
-"""
-function Conv2SetPoint(X::PointSet)
-        x=GeoStats.coordinates(X)
-        T=typeof(x[1,1])
-        out=Array{Point2{T}}(undef,0)
-        [push!(out,Point2(xcol[1],xcol[2])) for xcol in eachcol(x)]
-        return out
 end

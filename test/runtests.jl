@@ -1,13 +1,11 @@
-using Test, FluxConservative, GeoStats
+using FluxConservative
+
+using Test
+using GeoStats
 
 ## TESTING IS QUIT UNSTRUCTURED AND BRUTAL....
 ###
 @testset "RegularGrid" begin
-
-    @testset "Test Helpers" begin
-        @test 1 == 1
-    end
-
 
     @testset "nothing" begin
         ### remapping to the same grids....
