@@ -7,38 +7,18 @@ AreaHaversine() = AreaHaversine(6731.)
 function (area::AreaHaversine)(X::PointSet,Y::PointSet)
     ## To estimate a spherical quadrilateral we can split it into spherical triangles....
     ## And use spherical geometry to estimate the area
-    ## but first we have to get the 4 coordinates of the overlap polygon
+    ## but first we have to get the coordinates of the overlap polygon
 
-    x=GeoStats.coordinates(X)
-    y=GeoStats.coordinates(Y)
-
-    #bottom_left
-    x1=max(x[1,1],y[1,1])
-    y1=max(x[2,1],y[2,1])
-
-    #top_right
-    x3=min(x[1,3],y[1,3])
-    y3=min(x[2,3],y[2,3])
-
-    #bottom_right
-    x2=x3
-    y2=y1
-
-    #top_left
-    x4=x1
-    y4=y3
-
-    Z=PointSet([x1 x2 x3 x4;y1 y2 y3 y4])
-    z=GeoStats.coordinates(Z)
-    Zpoints=Conv2SetPoint(Z)
-    triangles=EarCut.triangulate([Zpoints])
+    Zpoints=@suppress estOverlap(X,Y)
+    triangles=EarCut.triangulate([Point2.(Zpoints)])
     A = 0.
+    z=Zpoints
 
     for sel in triangles
 
-        a=haversine(z[:,sel[1]],z[:,sel[2]],1)
-        b=haversine(z[:,sel[2]],z[:,sel[3]],1)
-        c=haversine(z[:,sel[3]],z[:,sel[1]],1)
+        a=haversine(z[sel[1]],z[sel[2]],1)
+        b=haversine(z[sel[2]],z[sel[3]],1)
+        c=haversine(z[sel[3]],z[sel[1]],1)
 
         s=(a+b+c)/2
         tanE=sqrt(tan(s/2)*tan((s-a)/2) * tan((s-b)/2) * tan((s-c)/2))

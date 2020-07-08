@@ -4,6 +4,8 @@ using GeoStats
 using Distances
 using GeometryBasics
 using EarCut
+using Suppressor
+using LazySets
 
 import GeoStatsBase: solve
 
@@ -36,7 +38,7 @@ function GeoStatsBase.solve(problem::EstimationProblem, solver::FluxConservWeigh
         for (var, V) in variables(problem)
 
                 varparams=solver.vparams[var]
-                outdata=zeros(npoints(problem.sdomain))
+                outdata=zeros(GeoStats.npoints(problem.sdomain))
 
                 for i in areacella
                         outdata[i[1]]=sum(pdata[var][i[2]] .* i[3])
